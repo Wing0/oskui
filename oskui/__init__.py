@@ -1,6 +1,10 @@
 '''
     Collection of custom-made UI functions for command line interface
 '''
+import re
+import subprocess
+from os import listdir
+from os.path import isfile, join
 try:
     # Win32
     from msvcrt import getch as getch_win
@@ -64,7 +68,6 @@ def ask_float_int(title, get_int=False):
     return user_value
 
 
-
 def choice_menu(menu, title):
     print title
     choice = None
@@ -83,6 +86,32 @@ def choice_menu(menu, title):
         return False
     else:
         return int(choice) - 1
+
+
+def get_files(path):
+    return [f for f in listdir(path) if isfile(join(path, f))]
+
+
+def get_folders(path):
+    return [f for f in listdir(path) if not isfile(join(path, f))]
+
+
+def get_usb_devices():
+    device_re = re.compile(
+        (
+            "Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+)"
+            ".+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$"), re.I)
+    df = subprocess.check_output("lsusb")
+    devices = []
+    for i in df.split('\n'):
+        if i:
+            info = device_re.match(i)
+            if info:
+                dinfo = info.groupdict()
+                dinfo['device'] = '/dev/bus/usb/%s/%s' % (
+                    dinfo.pop('bus'), dinfo.pop('device'))
+                devices.append(dinfo)
+    return devices
 
 
 def toggle(choices, values, title):
