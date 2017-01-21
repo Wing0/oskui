@@ -1,8 +1,6 @@
 '''
     Collection of custom-made UI functions for command line interface
 '''
-import re
-import subprocess
 from os import listdir
 from os.path import isfile, join
 try:
@@ -96,24 +94,6 @@ def get_folders(path):
     return [f for f in listdir(path) if not isfile(join(path, f))]
 
 
-def get_usb_devices():
-    device_re = re.compile(
-        (
-            "Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+)"
-            ".+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$"), re.I)
-    df = subprocess.check_output("lsusb")
-    devices = []
-    for i in df.split('\n'):
-        if i:
-            info = device_re.match(i)
-            if info:
-                dinfo = info.groupdict()
-                dinfo['device'] = '/dev/bus/usb/%s/%s' % (
-                    dinfo.pop('bus'), dinfo.pop('device'))
-                devices.append(dinfo)
-    return devices
-
-
 def toggle(choices, values, title):
     '''
     Enables user to toggle between on and off values matching a list of options
@@ -147,6 +127,11 @@ def toggle(choices, values, title):
             values[int(choice) - 1] = int(not values[int(choice) - 1])
 
     return values
+
+
+def press_any_key(title='Press any key to continue...'):
+    print title
+    return getch()
 
 
 def prompt(message, default=None):
