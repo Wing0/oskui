@@ -150,16 +150,20 @@ def warn(txt):
         bcolors.ENDC)
 
 
-def lower_case_name(title):
+def lower_case_name(title, unavailable=[]):
     name = None
     while name is None or (
             sum([0 if c.islower() else 1 for c in name]) != 0) or (
-            len(name) < 3):
+            len(name) < 3) or name in unavailable:
         if name is None:
             name = raw_input(title)
         elif len(name) < 3:
             name = raw_input(
                 'Name too short (minimum 3 characters). Try again:\n')
+        elif name in unavailable:
+            name = raw_input((
+                'The name is taken or not available.'
+                ' Please give a different name:\n'))
         else:
             name = raw_input((
                 'Invalid name. All characters need to be lower case letters. '
