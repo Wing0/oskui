@@ -3,6 +3,8 @@
 '''
 from os import listdir
 from os.path import isfile, join
+from Tkinter import Tk
+from tkFileDialog import askopenfilename
 try:
     # Win32
     from msvcrt import getch as getch_win
@@ -64,6 +66,23 @@ def ask_float_int(title, get_int=False):
         user_value = None
 
     return user_value
+
+
+def ask_file(message=None):
+    '''
+    Displays message if given and let's the user to select a file
+    in the file system
+    @params:
+    - message: string, message displayed to the user
+    @output:
+    - path: string, path to the selected
+    '''
+    if message is not None:
+        print message
+    press_any_key('Select a picture file from your file system.')
+    Tk().withdraw()
+    path = askopenfilename()
+    return path
 
 
 def choice_menu(menu, title):
@@ -129,8 +148,17 @@ def toggle(choices, values, title):
     return values
 
 
-def press_any_key(title='Press any key to continue...'):
-    print title
+def press_any_key(message=None):
+    '''
+    Displays message if given and waits for user input
+    @params:
+    - message: string, message displayed to the user
+    @output:
+    - key: string, key pressed by the user
+    '''
+    if message is not None:
+        print message
+    print 'Press any key to continue...'
     return getch()
 
 
