@@ -4,7 +4,7 @@
 from os import listdir
 from os.path import isfile, join
 from Tkinter import Tk
-from tkFileDialog import askopenfilename
+from tkFileDialog import askopenfilename, askdirectory
 try:
     # Win32
     from msvcrt import getch as getch_win
@@ -75,13 +75,30 @@ def ask_file(message=None):
     @params:
     - message: string, message displayed to the user
     @output:
-    - path: string, path to the selected
+    - path: string, path to the selected file
     '''
     if message is not None:
         print message
-    press_any_key('Select a picture file from your file system.')
+    press_any_key('Select a file from your file system.')
     Tk().withdraw()
     path = askopenfilename()
+    return path
+
+
+def ask_folder(message=None):
+    '''
+    Displays message if given and let's the user to select a folder
+    on the file system
+    @params:
+    - message: string, message displayed to the user
+    @output:
+    - path: string, path to the selected folder
+    '''
+    if message is not None:
+        print message
+    press_any_key('Select a folder on your file system.')
+    Tk().withdraw()
+    path = askdirectory()
     return path
 
 
