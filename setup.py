@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='oskui',
-      version='0.13',
+      version='0.13.1',
       description='Set of command line user interface tools',
       url='https://github.com/Wing0/oskui.git',
       author='Oskari Vinko',
