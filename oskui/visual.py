@@ -15,21 +15,47 @@ def _click_callback(event, x, y, flags, param):
         click_counter -= 1
 
 
-def click_on_image(image, times=1, mark=None, delay=100, text='image'):
+def click_on_image(
+        image, times=1, mark=False, delay=100,
+        text='Click on image', counter=True):
+    '''
+    Prompt the user with a window where he/she can click predetermined
+    times to complete action.
+
+    @params:
+    - image: np.array, image to show the user
+    - times: integer, number of clicks requested from the user
+    - mark: boolean, leave a mark on the image where clicked
+    - delay: integer, refresh rate - how many milliseconds image is shown
+            before refresh
+    - text: string, text to show on the window
+    '''
     img = image.copy()
     if len(img.shape) == 2:
         img = np.stack([img] * 3, -1)
     scale = get_scale(img)
-    cv2.namedWindow(text)
-    cv2.setMouseCallback(text, _click_callback)
     global clicks
     global click_counter
     clicks = []
     click_counter = times
     while click_counter > 0:
         if mark is not None and len(clicks) > 0:
-            img[int(clicks[-1][1] / scale), int(clicks[-1][0] / scale)] = mark
-        k = show_image(img, text=text, destroy=False, time=delay)
+            cv2.circle(
+                img,
+                (int(clicks[-1][0] / scale), int(clicks[-1][1] / scale)),
+                int(img.shape[0] / 100.0), (255, 255, 255), 3)
+            cv2.circle(
+                img,
+                (int(clicks[-1][0] / scale), int(clicks[-1][1] / scale)),
+                int(img.shape[0] / 100.0), (0, 0, 0), -1)
+
+        if counter:
+            t = '(%s/%s) - %s' % (times - click_counter, times, text)
+        else:
+            t = text
+        cv2.namedWindow(t)
+        cv2.setMouseCallback(t, _click_callback)
+        k = show_image(img, text=t, destroy=False, time=delay)
         if k != -1:
             cv2.destroyAllWindows()
             return k
