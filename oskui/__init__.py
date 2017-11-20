@@ -68,7 +68,7 @@ def ask_float_int(title, get_int=False):
     return user_value
 
 
-def ask_file(message=None):
+def ask_file(message=None, key_press=True):
     '''
     Displays message if given and let's the user to select a file
     in the file system
@@ -79,7 +79,8 @@ def ask_file(message=None):
     '''
     if message is not None:
         print message
-    press_any_key('Select a file from your file system.')
+    if key_press:
+        press_any_key('Select a file from your file system.')
     Tk().withdraw()
     path = askopenfilename()
     return path
