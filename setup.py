@@ -10,5 +10,4 @@ setup(
     license='MIT',
     url="https://github.com/Wing0/oskui",
     download_url="https://github.com/Wing0/oskui/archive/0.13.6.tar.gz",
-    keywords=['user', 'interface', 'ui', 'cmd'],
-    zip_safe=False)
+    keywords=[])
