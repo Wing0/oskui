@@ -123,8 +123,10 @@ def choice_menu(menu, title):
         return int(choice) - 1
 
 
-def get_files(path, full_path=False):
-    files = [f for f in listdir(path) if isfile(join(path, f))]
+def get_files(path, full_path=False, filter=None):
+    files = [
+        f for f in listdir(path)
+        if isfile(join(path, f)) and (filter is None or filter in f)]
     if full_path:
         files = ["%s/%s" % (path, f) for f in files]
     return files

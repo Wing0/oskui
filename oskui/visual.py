@@ -82,7 +82,7 @@ def get_scale(image, max_dimensions=(750, 1200)):
 
 
 def show_image(image, text='Image', time=0, destroy=True):
-    if os.uname()[0] == 'Linux':
+    if os.uname()[-1] == 'armv7l':
         return
     scale = get_scale(image)
     resized_image = image.copy()
