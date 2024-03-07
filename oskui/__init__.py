@@ -1,10 +1,16 @@
-'''
+"""
     Collection of custom-made UI functions for command line interface
-'''
+"""
+
 import os
 import sys
-import tty
-import termios
+
+if os.name == 'nt':
+    import msvcrt
+else:
+    import tty
+    import termios
+
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename, askdirectory
 
@@ -12,12 +18,9 @@ from tkinter.filedialog import askopenfilename, askdirectory
 # Define getch function for cross-platform compatibility
 def getch():
     """Get a single character from standard input without echoing to the screen."""
-    try:
-        # Win32
-        import msvcrt
+    if os.name == 'nt':
         return msvcrt.getch()
-    except ImportError:
-        # UNIX
+    else:
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
