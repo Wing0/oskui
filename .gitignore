@@ -51,6 +51,9 @@ coverage.xml
 *.mo
 *.pot
 
+# JetBrains stuff
+.idea/*
+
 # Django stuff:
 *.log
 local_settings.py

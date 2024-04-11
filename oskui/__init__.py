@@ -4,6 +4,7 @@
 
 import os
 import sys
+import time
 
 if os.name == 'nt':
     import msvcrt
@@ -11,6 +12,7 @@ else:
     import tty
     import termios
 
+import keyboard
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename, askdirectory
 
@@ -174,7 +176,8 @@ def press_any_key(message=None):
     if message:
         print(message)
     print('Press any key to continue...')
-    return getch()
+    time.sleep(0.5)
+    return keyboard.read_event().name
 
 
 def prompt(message, default=None):
